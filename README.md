@@ -1,11 +1,13 @@
-The Diffie-Hellman (DH) algorithm is a foundational key exchange protocol. It allows two parties (usually called Alice and Bob) to generate a shared secret over an insecure channel without ever actually sending the secret itself.
+End-to-End Encryption (E2EE) Using Diffie-Hellman (DH) algorithm
+
+The Diffie-Hellman (DH) algorithm is a foundational key exchange protocol. It allows two parties (usually called glen and tom) to generate a shared secret over an insecure channel without ever actually sending the secret itself.
 In Python, implement this using basic modular exponentiation (g^a mod p).
 
 Important Implementation Notessecrets vs random: Always use the secrets module for cryptography. The standard random module is pseudo-random and predictable, which would make your private keys hackable.
 
 Prime Size: In the real world, your prime $p$ should be at least 2048 bits long to be considered secure against modern computing power.
 
-The "Man-in-the-Middle" (MitM) Attack: DH by itself does not authenticate who you are talking to. An attacker could sit in the middle, pretend to be Bob to Alice, and pretend to be Alice to Bob. Usually, DH is paired with digital signatures (like RSA or ECDSA) to verify identities.
+The "Man-in-the-Middle" (MitM) Attack: DH by itself does not authenticate who you are talking to. An attacker could sit in the middle, pretend to be tom to glen, and pretend to be glen to tom. Usually, DH is paired with digital signatures (like RSA or ECDSA) to verify identities.
 
 The Double Ratchet Algorithm is the gold standard for secure messaging (used by Signal, WhatsApp, and Matrix). It provides End-to-End Encryption (E2EE) with two critical properties:
 
@@ -24,8 +26,8 @@ The KDF (Symmetric) Ratchet: For every message sent, the "Chain Key" turns once 
 The Diffie-Hellman (Asymmetric) Ratchet: Every time a response is received, a new DH exchange happens to create a brand new "Root Key."
 
 2. Why This is Superior
-If an attacker steals Alice's phone after the first two messages, they only have the current root_key.
+If an attacker steals glen's phone after the first two messages, they only have the current root_key.
 
-They cannot calculate the keys for "Hello Bob" because the symmetric ratchet deleted them (Forward Secrecy).
+They cannot calculate the keys for "Hello tom" because the symmetric ratchet deleted them (Forward Secrecy).
 
-Once Bob sends a new DH key and Alice performs receive_response(), the attacker's stolen root_key becomes useless for future messages (Post-Quantum/Break-in Recovery).
+Once tom sends a new DH key and glen performs receive_response(), the attacker's stolen root_key becomes useless for future messages (Post-Quantum/Break-in Recovery).
